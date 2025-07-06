@@ -1,0 +1,188 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
+
+:root {
+  --color-bg: #f3f4f6;
+  --color-text: #1f2937;
+  --color-primary: #1abc9c;
+  --color-secondary: #2c3e50;
+  --color-card: #ffffff;
+  --color-border: #e5e7eb;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  padding: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  margin-right: 1rem;
+}
+a:hover {
+  text-decoration: underline;
+}
+
+.layout header {
+  background: var(--color-card);
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.layout nav a {
+  font-weight: 600;
+}
+.layout nav a:hover {
+  color: var(--color-secondary);
+}
+
+.notification-icon {
+  cursor: pointer;
+  position: relative;
+  font-size: 1.5rem;
+  color: var(--color-secondary);
+}
+
+.container-page {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.container:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+}
+
+input, select, button, textarea {
+  padding: 0.75rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  width: 100%;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-family: 'Inter', sans-serif;
+}
+button {
+  background: var(--color-primary);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+}
+button:hover {
+  background: #16a085;
+}
+
+/* Notification Popover */
+.notification-popover {
+  position: absolute;
+  right: 2rem;
+  top: 4rem;
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  width: 300px;
+  max-height: 400px;
+  overflow-y: auto;
+  z-index: 100;
+}
+.notification-popover ul {
+  list-style: none;
+  margin: 0;
+  padding: 1rem;
+}
+.notification-popover li {
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--color-border);
+}
+.notification-popover li:last-child {
+  border-bottom: none;
+}
+
+/* Calendar overrides */
+.container .react-calendar {
+  width: 350px;
+  margin: 2rem auto;
+  background: var(--color-bg);
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  /* on restaure l'espacement par défaut des cases */
+  border-spacing: 2px;    
+}
+
+.container .react-calendar__navigation button[title="Suivant 2"],
+.container .react-calendar__navigation button[title="Précédent 2"] {
+  display: none;
+}
+
+.container .react-calendar__navigation {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+}
+
+.container .react-calendar__navigation button {
+  font-size: 1.1rem;
+  color: var(--color-secondary);
+}
+
+.container .react-calendar__month-view__weekdays {
+  text-transform: uppercase;
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: var(--color-secondary);
+}
+
+.container .react-calendar__month-view__days__day,
+.container .react-calendar__tile {
+  background: var(--color-card) !important;
+  color: var(--color-text) !important;
+  /* plus de margin ici ! */
+  padding: 0.5rem 0 !important;
+  box-sizing: border-box;
+}
+
+.container .react-calendar__tile--neighboringMonth {
+  opacity: 0.3;
+}
+
+.container .react-calendar__tile--active {
+  background: var(--color-primary) !important;
+  color: #fff !important;
+}
+
+.container .react-calendar__tile:hover:not(.react-calendar__tile--active) {
+  background: var(--color-border) !important;
+}
+
+.container .react-calendar__tile.react-calendar__month-view__days__day--weekend {
+  color: var(--color-text) !important;
+}
+
+.calendar-event-dot {
+  display: block;
+  width: 6px;
+  height: 6px;
+  background: var(--color-primary);
+  border-radius: 50%;
+  margin: 2px auto 0;
+}
