@@ -12,9 +12,8 @@ export default async function handler(req, res) {
     try {
         const courses = await db.query(`
             SELECT c.*
-            FROM courses c
-                     JOIN user_courses uc ON c.id = uc.course_id
-            WHERE uc.user_id = ?
+            FROM cours c
+            WHERE c.utilisateur_id = $1
         `, [session.user.id]);
 
         return res.status(200).json(courses);

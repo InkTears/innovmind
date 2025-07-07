@@ -36,11 +36,18 @@ apiRoute.use(upload.single('fichier_pdf'));
 // Récupérer un cours par ID
 apiRoute.get(async (req, res) => {
     try {
-        const { id } = req.query;
-        const { rows } = await pool.query(
-            'SELECT id, utilisateur_id, titre, description, categorie, niveau_etude, date_ajout FROM cours WHERE id = $1',
-            [id]
-        );
+        const { id, utilisateur_id } = req.query;
+
+        let query = 'SELECT id, utilisateur_id, titre, description, categorie, niveau_etude, date_ajout FROM cours WHERE id = $1';
+        const params = [id];
+
+        // Filter by user ID if provided
+        if (utilisateur_id) {
+            params.push(utilisateur_id);
+            query += ' AND utilisateur_id = $2';
+        }
+
+        const { rows } = await pool.query(query, params);
 
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Cours non trouvé' });
@@ -56,8 +63,20 @@ apiRoute.get(async (req, res) => {
 // Supprimer un cours
 apiRoute.delete(async (req, res) => {
     try {
-        const { id } = req.query;
-        const { rows } = await pool.query('DELETE FROM cours WHERE id = $1 RETURNING id', [id]);
+        const { id, utilisateur_id } = req.query;
+
+        let query = 'DELETE FROM cours WHERE id = $1';
+        const params = [id];
+
+        // Filter by user ID if provided
+        if (utilisateur_id) {
+            params.push(utilisateur_id);
+            query += ' AND utilisateur_id = $2';
+        }
+
+        query += ' RETURNING id';
+
+        const { rows } = await pool.query(query, params);
 
         if (rows.length === 0) {
             return res.status(404).json({ message: 'Cours non trouvé' });

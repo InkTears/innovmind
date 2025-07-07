@@ -7,6 +7,7 @@ export const coursService = {
     // Récupérer tous les cours (avec filtres optionnels)
     getCours: async (filters = {}) => {
         const params = new URLSearchParams();
+        if (filters.utilisateur_id) params.append('utilisateur_id', filters.utilisateur_id);
         if (filters.categorie) params.append('categorie', filters.categorie);
         if (filters.date_debut) params.append('date_debut', filters.date_debut);
         if (filters.date_fin) params.append('date_fin', filters.date_fin);
@@ -16,18 +17,21 @@ export const coursService = {
     },
 
     // Récupérer un cours par ID
-    getCoursById: async (id) => {
-        const response = await axios.get(`${API_URL}/cours/${id}`);
+    getCoursById: async (id, utilisateur_id) => {
+        const params = new URLSearchParams();
+        if (utilisateur_id) params.append('utilisateur_id', utilisateur_id);
+
+        const response = await axios.get(`${API_URL}/cours/${id}?${params.toString()}`);
         return response.data;
     },
 
-    // Ajouter un nouveau cours (vous avez déjà cette méthode)
+    // Ajouter un nouveau cours
     addCours: async (coursData) => {
         const formData = new FormData();
 
         // Ajout des champs textuels
         Object.keys(coursData).forEach(key => {
-            if (key !== 'fichier_pdf' || !coursData[key]) {
+            if (key !== 'fichier_pdf') {
                 formData.append(key, coursData[key]);
             }
         });
@@ -44,8 +48,11 @@ export const coursService = {
     },
 
     // Supprimer un cours
-    deleteCours: async (id) => {
-        const response = await axios.delete(`${API_URL}/cours/${id}`);
+    deleteCours: async (id, utilisateur_id) => {
+        const params = new URLSearchParams();
+        if (utilisateur_id) params.append('utilisateur_id', utilisateur_id);
+
+        const response = await axios.delete(`${API_URL}/cours/${id}?${params.toString()}`);
         return response.data;
     }
 };

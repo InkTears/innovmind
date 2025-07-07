@@ -88,6 +88,12 @@ apiRoute.get(async (req, res) => {
         let query = 'SELECT id, utilisateur_id, titre, description, categorie, niveau_etude, date_ajout FROM cours WHERE 1=1';
         const params = [];
 
+        // Filter by user ID if provided
+        if (req.query.utilisateur_id) {
+            params.push(req.query.utilisateur_id);
+            query += ` AND utilisateur_id = $${params.length}`;
+        }
+
         if (categorie) {
             params.push(categorie);
             query += ` AND categorie = $${params.length}`;

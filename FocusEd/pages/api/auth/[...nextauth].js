@@ -14,22 +14,24 @@ export default NextAuth({
             },
             async authorize(credentials) {
                 try {
-                    const user = await db.query('SELECT * FROM users WHERE email = ?', [credentials.email]);
+                    const users = await db.query('SELECT * FROM utilisateurs WHERE email = $1', [credentials.email]);
 
-                    if (!user || user.length === 0) {
+                    if (!users || users.length === 0) {
                         return null;
                     }
 
-                    const passwordMatch = await bcrypt.compare(credentials.password, user[0].password);
+                    const user = users[0];
+                    const passwordMatch = await bcrypt.compare(credentials.password, user.mot_de_passe);
 
                     if (!passwordMatch) {
                         return null;
                     }
 
                     return {
-                        id: user[0].id,
-                        name: user[0].name,
-                        email: user[0].email
+                        id: user.id,
+                        name: `${user.prenom} ${user.nom}`,
+                        email: user.email,
+                        role: user.role
                     };
                 } catch (error) {
                     console.error('Erreur d\'authentification:', error);
@@ -42,17 +44,19 @@ export default NextAuth({
         async jwt({ token, user }) {
             if (user) {
                 token.id = user.id;
+                token.role = user.role;
             }
             return token;
         },
         async session({ session, token }) {
             session.user.id = token.id;
+            session.user.role = token.role;
             return session;
         }
     },
     pages: {
-        signIn: '/auth/signin',
-        error: '/auth/error'
+        signIn: '/login',
+        error: '/login'
     },
     session: {
         strategy: 'jwt',

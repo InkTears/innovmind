@@ -186,3 +186,100 @@ button:hover {
   border-radius: 50%;
   margin: 2px auto 0;
 }
+
+/* Course styles */
+.courses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.course-card {
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.course-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 10px rgba(0,0,0,0.1);
+}
+
+.course-actions {
+  display: flex;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+}
+
+.course-actions a {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.course-actions a:first-child {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.course-actions a:last-child {
+  background-color: var(--color-secondary);
+  color: white;
+}
+
+.course-actions a:hover {
+  opacity: 0.9;
+  text-decoration: none;
+}
+
+.download-btn {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background-color: var(--color-secondary);
+  color: white;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.2s;
+}
+
+.download-btn:hover {
+  background-color: #34495e;
+  text-decoration: none;
+}
+
+.dashboard-course-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.dashboard-course-actions {
+  display: flex;
+}
+
+.dashboard-course-actions a {
+  font-size: 0.85rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+  font-weight: 600;
+  text-align: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+.dashboard-course-actions a:first-child {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.dashboard-course-actions a:last-child {
+  background-color: var(--color-secondary);
+  color: white;
+}

@@ -1,6 +1,6 @@
 // contexts/AuthContext.js
 import { createContext, useContext, useEffect, useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession, signIn, signOut } from 'next-auth/react';
 import { useRouter } from 'next/router';
 
 const AuthContext = createContext();
@@ -19,13 +19,27 @@ export function AuthProvider({ children }) {
         }
     }, [session]);
 
+    const login = async (email, mot_de_passe) => {
+        const result = await signIn('credentials', {
+            redirect: false,
+            email,
+            password: mot_de_passe
+        });
+
+        if (result?.error) {
+            throw new Error(result.error);
+        }
+
+        return result;
+    };
+
     const logout = async () => {
         await signOut({ redirect: false });
-        router.push('/auth/signin');
+        router.push('/login');
     };
 
     return (
-        <AuthContext.Provider value={{ user, loading, logout }}>
+        <AuthContext.Provider value={{ user, loading, login, logout }}>
             {children}
         </AuthContext.Provider>
     );

@@ -1,14 +1,16 @@
 import { useState } from 'react';
 import { useRouter } from 'next/router';
 import { coursService } from '../../services/api';
+import { useSession } from 'next-auth/react';
 
 export default function UploadCourse() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
+  const { data: session } = useSession();
 
   // État du formulaire avec tous les champs nécessaires
   const [formData, setFormData] = useState({
-    utilisateur_id: 1, // À remplacer par l'ID de l'utilisateur connecté
+    utilisateur_id: session?.user?.id || 1, // Utiliser l'ID de l'utilisateur connecté
     titre: '',
     description: '',
     categorie: '',
@@ -24,7 +26,8 @@ export default function UploadCourse() {
   };
 
   const handleFileChange = (e) => {
-    setFormData(prev => ({ ...prev, fichier_pdf: e.target.files[0] }));
+    const { files } = e.target;
+    setFormData(prev => ({ ...prev, fichier_pdf: files[0] }));
   };
 
   const handleSubmit = async (e) => {
@@ -92,12 +95,17 @@ export default function UploadCourse() {
               <option value="Doctorat">Doctorat</option>
             </select>
 
-            <input
-                type="file"
-                name="fichier_pdf"
-                accept=".pdf"
-                onChange={handleFileChange}
-            />
+            <div>
+              <label htmlFor="fichier_pdf">Fichier PDF du cours:</label>
+              <input
+                  type="file"
+                  id="fichier_pdf"
+                  name="fichier_pdf"
+                  accept=".pdf"
+                  onChange={handleFileChange}
+              />
+            </div>
+
 
             <button type="submit" disabled={loading}>
               {loading ? 'Chargement...' : 'Ajouter'}
