@@ -1,20 +1,23 @@
+import { useState } from 'react';
 import Link from 'next/link';
-import Layout from '../../components/Layout';
-import { courses } from '../../mocks/courses';
 
 export default function Courses() {
-  return (
-    <Layout>
-      <div className="container">
-        <h1>Cours</h1>
-        <ul>
-          {courses.map(c => (
-            <li key={c.id}>
-              <Link href={`/courses/${c.id}`}>{c.title}</Link>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </Layout>
-);
-          }
+    const [courses, setCourses] = useState([/* vos données */]);
+
+    return (
+        <>
+            <h1>Cours disponibles</h1>
+            <div className="courses-grid">
+                {courses.map(course => (
+                    <div key={course.id} className="course-card">
+                        <h3>{course.title}</h3>
+                        <p>{course.description}</p>
+                        <Link href={`/courses/${course.id}`}>
+                            Voir le détail
+                        </Link>
+                    </div>
+                ))}
+            </div>
+        </>
+    );
+}
